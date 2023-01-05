@@ -188,7 +188,7 @@ export default function Home() {
       });
       connectWallet();
     }
-  }, [walletConnected]);
+  }, []);
 
   return (
     <div>
