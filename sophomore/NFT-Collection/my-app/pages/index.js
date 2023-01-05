@@ -290,11 +290,7 @@ export default function Home() {
   const renderButton = () => {
     // If wallet is not connected, return a button which allows them to connect their wllet
     if (!walletConnected) {
-      return (
-        <button onClick={connectWallet} className={styles.button}>
-          Connect your wallet
-        </button>
-      );
+      return <button className={styles.button}>Connect your wallet</button>;
     }
 
     // If we are currently waiting for something, return a loading button
