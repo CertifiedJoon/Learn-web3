@@ -248,16 +248,7 @@ export default function Home() {
   // In this case, whenever the value of `walletConnected` changes - this effect will be called
   useEffect(() => {
     // if wallet is not connected, create a new instance of Web3Modal and connect the MetaMask wallet
-    if (!walletConnected) {
-      // Assign the Web3Modal class to the reference object by setting it's `current` value
-      // The `current` value is persisted throughout as long as this page is open
-      web3ModalRef.current = new Web3Modal({
-        network: "goerli",
-        providerOptions: {},
-        disableInjectedProvider: false,
-      });
-      connectWallet();
-
+    if (walletConnected) {
       // Check if presale has started and ended
       const _presaleStarted = checkIfPresaleStarted();
       if (_presaleStarted) {
@@ -282,6 +273,19 @@ export default function Home() {
         await getTokenIdsMinted();
       }, 5 * 1000);
     }
+  }, [walletConnected]);
+
+  useEffect(() => {
+    if (!walletConnected) {
+      // Assign the Web3Modal class to the reference object by setting it's `current` value
+      // The `current` value is persisted throughout as long as this page is open
+      web3ModalRef.current = new Web3Modal({
+        network: "goerli",
+        providerOptions: {},
+        disableInjectedProvider: false,
+      });
+      connectWallet();
+    }
   }, []);
 
   /*
@@ -290,7 +294,11 @@ export default function Home() {
   const renderButton = () => {
     // If wallet is not connected, return a button which allows them to connect their wllet
     if (!walletConnected) {
-      return <button className={styles.button}>Connect your wallet</button>;
+      return (
+        <button onClick={connectWallet} className={styles.button}>
+          Connect your wallet
+        </button>
+      );
     }
 
     // If we are currently waiting for something, return a loading button
